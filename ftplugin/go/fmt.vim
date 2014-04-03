@@ -47,13 +47,15 @@ if !exists('g:go_fmt_fail_silently')
 endif
 
 if g:go_fmt_autosave
-    autocmd BufWritePre <buffer> :GoFmt
+    autocmd BufWritePre <buffer> :Fmt
 endif
 
 if g:go_fmt_commands
     command! -buffer GoFmt call s:GoFormat()
     command! -buffer GoDisableGoimports call s:GoDisableGoimports()
     command! -buffer GoEnableGoimports call s:GoEnableGoimports()
+    command! -buffer -nargs=* -complete=custom,go#format#Complete
+        \ Fmt call go#format#Run(<f-args>)
 endif
 
 function! s:GoDisableGoimports()
